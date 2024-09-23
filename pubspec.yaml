@@ -1,0 +1,33 @@
+name: online_clothing_store
+description: "Online Clothings"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  firebase_core: ^3.0.0
+  google_sign_in: ^6.0.0
+  firebase_auth: ^5.0.0
+
+  collection: 1.18.0
+  http_parser: 4.0.2
+  leak_tracker: 10.0.5
+  leak_tracker_flutter_testing: 3.0.5  # Ajustado para a versão compatível com flutter_test
+  material_color_utilities: 0.11.1
+  meta: 1.15.0
+  string_scanner: 1.2.0
+  test_api: 0.7.2
+  vm_service: 14.2.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
