@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:online_clothing_store/tabs/home_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _pageController = PageController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -95,14 +97,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login com Google"),
-      ),
-      body: Center(
-        child:
-            _currentUser == null ? _buildSignInButton() : _buildUserDetails(),
-      ),
+    return PageView(
+      controller: _pageController,
+      physics: const NeverScrollableScrollPhysics(),
+      // appBar: AppBar(
+      //   title: const Text("Login com Google"),
+      // ),
+      // body: Center(
+      //   child:
+      //       _currentUser == null ? _buildSignInButton() : _buildUserDetails(),
+      // ),
+      children: [HomeTab()],
     );
   }
 
