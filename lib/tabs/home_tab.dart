@@ -66,8 +66,6 @@ class HomeTab extends StatelessWidget {
                             as Map<String, dynamic>; // Casting para Map
                         final xCount = data["x"] ?? 1; // Acesso seguro
                         final yCount = data["y"] ?? 1;
-                        print(123);
-                        print(data);
                         return StaggeredGridTile.count(
                           crossAxisCellCount: xCount,
                           mainAxisCellCount: yCount,
