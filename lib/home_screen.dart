@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:online_clothing_store/tabs/home_tab.dart';
+import 'package:online_clothing_store/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -107,7 +108,13 @@ class _HomeScreenState extends State<HomeScreen> {
       //   child:
       //       _currentUser == null ? _buildSignInButton() : _buildUserDetails(),
       // ),
-      children: [HomeTab()],
+
+      children: <Widget>[
+        Scaffold(
+          body: const HomeTab(),
+          drawer: CustomDrawer(),
+        )
+      ],
     );
   }
 
