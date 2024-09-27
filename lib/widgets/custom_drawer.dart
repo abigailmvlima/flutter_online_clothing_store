@@ -22,8 +22,8 @@ class CustomDrawer extends StatelessWidget {
           buildDrawerBack(),
           ListView(
             padding: const EdgeInsets.only(left: 32.0, top: 16.0),
-            children: const [
-              Positioned(
+            children: [
+              const Positioned(
                 top: 8.0,
                 left: 0.0,
                 child: Text(
@@ -34,7 +34,33 @@ class CustomDrawer extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-              )
+              ),
+              Positioned(
+                  left: 0.0,
+                  bottom: 0.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Olá,",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      GestureDetector(
+                        child: const Text(
+                          "Entre ou cadastre-se >",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onTap: () {},
+                      )
+                    ],
+                  )),
             ],
           )
         ],
