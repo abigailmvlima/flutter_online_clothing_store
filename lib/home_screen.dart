@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:online_clothing_store/tabs/home_tab.dart';
+import 'package:online_clothing_store/tabs/products_tab.dart';
 import 'package:online_clothing_store/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -113,6 +114,14 @@ class _HomeScreenState extends State<HomeScreen> {
         Scaffold(
           body: const HomeTab(),
           drawer: CustomDrawer(_pageController),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: const Text("Produtos"),
+            centerTitle: true,
+          ),
+          drawer: CustomDrawer(_pageController),
+          body: ProductsTab(),
         ),
         Container(
           color: Colors.red,
