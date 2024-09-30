@@ -112,8 +112,11 @@ class _HomeScreenState extends State<HomeScreen> {
       children: <Widget>[
         Scaffold(
           body: const HomeTab(),
-          drawer: CustomDrawer(),
-        )
+          drawer: CustomDrawer(_pageController),
+        ),
+        Container(
+          color: Colors.red,
+        ),
       ],
     );
   }
