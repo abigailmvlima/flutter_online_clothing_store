@@ -13,21 +13,16 @@ class ProductData {
   List<dynamic>? sizes;
 
   ProductData.fromDocument(DocumentSnapshot snapshot)
-      : id = snapshot.id, // Uso do snapshot.id em vez de snapshot.documentID
+      : id = snapshot.id,
         category = (snapshot.data() as Map<String, dynamic>)["category"],
         title = (snapshot.data() as Map<String, dynamic>)["title"],
         description = (snapshot.data() as Map<String, dynamic>)["description"],
         price = (snapshot.data() as Map<String, dynamic>)["price"]?.toDouble(),
-        images = (snapshot.data() as Map<String, dynamic>)["images"],
-        sizes = (snapshot.data() as Map<String, dynamic>)["sizes"];
+        // Adicionando verificação para garantir que o tipo é uma lista
+        images = (snapshot.data() as Map<String, dynamic>)["images"] is List
+            ? (snapshot.data() as Map<String, dynamic>)["images"]
+            : [], // Se não for uma lista, atribui uma lista vazia
+        sizes = (snapshot.data() as Map<String, dynamic>)["sizes"] is List
+            ? (snapshot.data() as Map<String, dynamic>)["sizes"]
+            : []; // Se não for uma lista, atribui uma lista vazia
 }
-  // {
-  //   id = snapshot.id;
-  //   title = snapshot.data["title"];
-  //   description =snapshot.data["description"];
-  //   price = snapshot.data["price"];
-  //   images = snapshot.data["images"];
-  //   sizes = snapshot.data["sizes"];
-
-  // }
-
