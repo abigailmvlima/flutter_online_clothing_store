@@ -33,6 +33,7 @@ class _ProductScreenState extends State<ProductScreen> {
     if (product.images == null || product.images!.isEmpty) {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: primaryColor,
           title: const Text('Produto sem imagens'),
           centerTitle: true,
         ),
