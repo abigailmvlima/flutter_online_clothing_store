@@ -11,6 +11,7 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  String? size;
   late ProductData product;
   int _currentIndex = 0; // Controla o índice atual do PageView
   final PageController _pageController =
@@ -31,10 +32,10 @@ class _ProductScreenState extends State<ProductScreen> {
     if (product.images == null || product.images!.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Produto sem imagens'),
+          title: const Text('Produto sem imagens'),
           centerTitle: true,
         ),
-        body: Center(
+        body: const Center(
           child: Text('Este produto não possui imagens.'),
         ),
       );
@@ -61,7 +62,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               index; // Atualiza o índice da página atual
                         });
                       },
-                      itemCount: product.images!.length,
+                      itemCount: product.images?.length ?? 0,
                       itemBuilder: (context, index) {
                         return Image.network(
                           product.images![index],
@@ -71,7 +72,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   // Indicador de bolinhas
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -126,6 +127,48 @@ class _ProductScreenState extends State<ProductScreen> {
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
                       )),
+                  const SizedBox(height: 16.0),
+                  const Text("Tamanho",
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 34.0,
+                    child: GridView(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      scrollDirection: Axis.horizontal,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              mainAxisSpacing: 8.0,
+                              childAspectRatio: 0.5),
+                      // Usando product.sizes ?? [] para garantir que seja uma lista não nula
+                      children: (product.size ?? []).map((s) {
+                        // Corrigido para 'sizes'
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              size = s;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4.0)),
+                              border: Border.all(
+                                color: s == size
+                                    ? primaryColor
+                                    : (Colors.grey[300] ?? Colors.grey),
+                                width: 2.0,
+                              ),
+                            ),
+                            width: 50.0,
+                            alignment: Alignment.center,
+                            child: Text(s),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
             ),

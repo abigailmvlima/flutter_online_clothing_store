@@ -10,7 +10,7 @@ class ProductData {
   double? price;
 
   List<dynamic>? images;
-  List<dynamic>? sizes;
+  List<dynamic>? size;
 
   ProductData.fromDocument(DocumentSnapshot snapshot)
       : id = snapshot.id,
@@ -22,7 +22,7 @@ class ProductData {
         images = (snapshot.data() as Map<String, dynamic>)["images"] is List
             ? (snapshot.data() as Map<String, dynamic>)["images"]
             : [], // Se não for uma lista, atribui uma lista vazia
-        sizes = (snapshot.data() as Map<String, dynamic>)["sizes"] is List
-            ? (snapshot.data() as Map<String, dynamic>)["sizes"]
+        size = (snapshot.data() as Map<String, dynamic>)["size"] is List
+            ? (snapshot.data() as Map<String, dynamic>)["size"]
             : []; // Se não for uma lista, atribui uma lista vazia
 }
