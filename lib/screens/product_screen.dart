@@ -12,6 +12,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   String? size;
+  String? descripition;
   late ProductData product;
   int _currentIndex = 0; // Controla o índice atual do PageView
   final PageController _pageController =
@@ -169,6 +170,37 @@ class _ProductScreenState extends State<ProductScreen> {
                       }).toList(),
                     ),
                   ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  SizedBox(
+                    height: 44.0,
+                    child: ElevatedButton(
+                      onPressed: size != null ? () {} : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor, // Cor de fundo do botão
+                        foregroundColor: Colors.white, // Cor do texto
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Define o raio das bordas
+                        ),
+                      ),
+                      child: const Text(
+                        "Adicionar ao carrinho",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  const Text("Descrição",
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.w500)),
+                  Text(
+                    product.descripition ?? 'Descrição não disponível',
+                    style: const TextStyle(fontSize: 16.0),
+                  )
                 ],
               ),
             ),

@@ -5,7 +5,7 @@ class ProductData {
   String id;
 
   String? title;
-  String? description;
+  String? descripition;
 
   double? price;
 
@@ -16,7 +16,8 @@ class ProductData {
       : id = snapshot.id,
         category = (snapshot.data() as Map<String, dynamic>)["category"],
         title = (snapshot.data() as Map<String, dynamic>)["title"],
-        description = (snapshot.data() as Map<String, dynamic>)["description"],
+        descripition =
+            (snapshot.data() as Map<String, dynamic>)["descripition"],
         price = (snapshot.data() as Map<String, dynamic>)["price"]?.toDouble(),
         // Adicionando verificação para garantir que o tipo é uma lista
         images = (snapshot.data() as Map<String, dynamic>)["images"] is List
