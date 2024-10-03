@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:online_clothing_store/screens/signup_screen.dart';
-import 'package:online_clothing_store/screens/signup_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-
-  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,33 +11,27 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: primaryColor,
         title: const Text(
-          "Entrar",
+          "Criar Conta",
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => SignUpScreen()));
-            },
-            style: TextButton.styleFrom(
-              foregroundColor:
-                  Colors.white, // Cor do texto (substituindo textColor)
-              // backgroundColor: Colors.blue, // Cor de fundo do botão (opcional)) Colors.white,
-            ),
-            child: const Text(
-              "Criar conta",
-              style: TextStyle(fontSize: 15.0),
-            ),
-          ),
-        ],
       ),
       body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(18.0),
           children: [
+            TextFormField(
+              decoration: const InputDecoration(hintText: "Nome Completo"),
+              keyboardType: TextInputType.name,
+              validator: (text) {
+                if (text == null || text.isEmpty) {
+                  return "Nome inválido";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 18.0),
             TextFormField(
               decoration: const InputDecoration(hintText: "E-mail"),
               keyboardType: TextInputType.emailAddress,
@@ -63,26 +53,7 @@ class LoginScreen extends StatelessWidget {
                 return null;
               },
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.transparent, // Cor de fundo transparente
-                  foregroundColor:
-                      Colors.blue, // Cor do texto (pode ser ajustada)
-                  shadowColor: Colors.transparent, // Remove a sombra
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero, // Remove o raio das bordas
-                  ),
-                ),
-                child: const Text(
-                  "Esqueci minha senha",
-                  textAlign: TextAlign.right,
-                ),
-              ),
-            ),
+            const SizedBox(height: 18.0),
             SizedBox(
               height: 44.0,
               child: ElevatedButton(
@@ -98,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  "Entrar",
+                  "Criar Conta",
                   style: TextStyle(fontSize: 18.0),
                 ),
               ),
