@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:online_clothing_store/models/user_model.dart';
 import 'package:online_clothing_store/screens/login_screen.dart';
 import 'package:online_clothing_store/tiles/drawer_tile.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
   final PageController _pageController;
@@ -43,39 +45,49 @@ class CustomDrawer extends StatelessWidget {
               Positioned(
                   left: 0.0,
                   bottom: 0.0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Olá,",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      GestureDetector(
-                        child: const Text(
-                          "Entre ou cadastre-se >",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16.0,
+                  child: ScopedModelDescendant<UserModel>(
+                      builder: (context, child, model) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Olá, ${model.isLoading || model.firebaseUser == null ? "" : model.userData["name"] ?? "Visitante"}",
+                          style: const TextStyle(
+                            fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                        },
-                      ),
-                      Divider(),
-                      DrawerTile(Icons.home, "Início", _pageController, 0),
-                      DrawerTile(Icons.list, "Produtos", _pageController, 1),
-                      DrawerTile(
-                          Icons.location_on, "Lojas", _pageController, 2),
-                      DrawerTile(Icons.playlist_add_check, "Meus Pedidos",
-                          _pageController, 3),
-                    ],
-                  )),
+                        GestureDetector(
+                          child: Text(
+                            model.firebaseUser == null
+                                ? "Entre ou cadastre-se >"
+                                : "Sair",
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onTap: () {
+                            if (!model.isLoading ||
+                                model.firebaseUser == null) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                            } else {
+                              model.signOut();
+                            }
+                          },
+                        ),
+                        Divider(),
+                        DrawerTile(Icons.home, "Início", _pageController, 0),
+                        DrawerTile(Icons.list, "Produtos", _pageController, 1),
+                        DrawerTile(
+                            Icons.location_on, "Lojas", _pageController, 2),
+                        DrawerTile(Icons.playlist_add_check, "Meus Pedidos",
+                            _pageController, 3),
+                      ],
+                    );
+                  })),
             ],
           )
         ],

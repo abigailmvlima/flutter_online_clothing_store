@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:online_clothing_store/models/user_model.dart';
 import 'package:online_clothing_store/screens/signup_screen.dart';
-import 'package:online_clothing_store/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController(); // Adicionando controladores
+  final _passController = TextEditingController(); // Adicionando controladores
 
   LoginScreen({super.key});
 
@@ -14,33 +15,31 @@ class LoginScreen extends StatelessWidget {
     final Color primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: const Text(
-            "Entrar",
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SignUpScreen()));
-              },
-              style: TextButton.styleFrom(
-                foregroundColor:
-                    Colors.white, // Cor do texto (substituindo textColor)
-                // backgroundColor: Colors.blue, // Cor de fundo do botão (opcional)) Colors.white,
-              ),
-              child: const Text(
-                "Criar conta",
-                style: TextStyle(fontSize: 15.0),
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        title: const Text(
+          "Entrar",
+          style: TextStyle(color: Colors.white),
         ),
-        body:
-            ScopedModelDescendant<UserModel>(builder: (context, child, model) {
+        centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => SignUpScreen()));
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+            ),
+            child: const Text(
+              "Criar conta",
+              style: TextStyle(fontSize: 15.0),
+            ),
+          ),
+        ],
+      ),
+      body: ScopedModelDescendant<UserModel>(
+        builder: (context, child, model) {
           if (model.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -52,6 +51,7 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(18.0),
               children: [
                 TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(hintText: "E-mail"),
                   keyboardType: TextInputType.emailAddress,
                   validator: (text) {
@@ -63,11 +63,12 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 18.0),
                 TextFormField(
+                  controller: _passController,
                   decoration: const InputDecoration(hintText: "Senha"),
-                  obscureText: true, // Mostra asteriscos ao digitar a senha
+                  obscureText: true,
                   validator: (text) {
                     if (text == null || text.isEmpty || text.length < 6) {
-                      return "E-mail inválido";
+                      return "A senha deve ter pelo menos 6 caracteres";
                     }
                     return null;
                   },
@@ -77,14 +78,11 @@ class LoginScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.transparent, // Cor de fundo transparente
-                      foregroundColor:
-                          Colors.blue, // Cor do texto (pode ser ajustada)
-                      shadowColor: Colors.transparent, // Remove a sombra
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: Colors.blue,
+                      shadowColor: Colors.transparent,
                       shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.zero, // Remove o raio das bordas
+                        borderRadius: BorderRadius.zero,
                       ),
                     ),
                     child: const Text(
@@ -97,15 +95,22 @@ class LoginScreen extends StatelessWidget {
                   height: 44.0,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {}
-                      model.signIn();
+                      if (_formKey.currentState?.validate() ?? false) {
+                        model.signIn(
+                          email: _emailController.text,
+                          pass: _passController.text,
+                          onSuccess: () =>
+                              _onSuccess(context), // Passando o `context`
+                          onFail: () =>
+                              _onFail(context), // Passando o `context`
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor, // Cor de fundo do botão
-                      foregroundColor: Colors.white, // Cor do texto
+                      backgroundColor: primaryColor,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            8.0), // Define o raio das bordas
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
                     child: const Text(
@@ -117,6 +122,28 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
           );
-        }));
+        },
+      ),
+    );
+  }
+
+  void _onSuccess(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text("Login realizado com sucesso!"),
+        backgroundColor: Theme.of(context).primaryColor,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _onFail(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Falha ao realizar login!"),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 }

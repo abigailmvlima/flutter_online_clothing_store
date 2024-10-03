@@ -21,16 +21,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final Color primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: const Text(
-            "Criar Conta",
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        title: const Text(
+          "Criar Conta",
+          style: TextStyle(color: Colors.white),
         ),
-        body:
-            ScopedModelDescendant<UserModel>(builder: (context, child, model) {
+        centerTitle: true,
+      ),
+      body: ScopedModelDescendant<UserModel>(
+        builder: (context, child, model) {
           if (model.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -111,19 +111,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   void _onSucess() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Usuário criado com sucesso!")),
+      SnackBar(
+        content: const Text("Usuário criado com sucesso!"),
+        backgroundColor: Theme.of(context).primaryColor,
+        duration: const Duration(seconds: 2),
+      ),
     );
-    // Navegação ou outras ações podem ser implementadas aqui.
+
+    // Após 2 segundos, fecha a tela de cadastro
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.of(context).pop();
+    });
   }
 
   void _onFaill() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Falha ao criar usuário!")),
+      const SnackBar(
+        content: Text("Falha ao criar usuário!"),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ),
     );
   }
 }

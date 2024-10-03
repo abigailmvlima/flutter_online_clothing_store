@@ -12,6 +12,7 @@ class UserModel extends Model {
 
   bool isLoading = false;
 
+  // SignUp - Criação de conta
   void signUp({
     required Map<String, dynamic> userData,
     required String pass,
@@ -47,11 +48,11 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  // Salvando dados do usuário no Firestore
   Future<void> _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;
 
     try {
-      // Salvando dados do usuário no Firestore
       await FirebaseFirestore.instance
           .collection("users")
           .doc(firebaseUser?.uid)
@@ -61,15 +62,66 @@ class UserModel extends Model {
     }
   }
 
-  void signIn() async {
+  // SignIn - Login
+  void signIn({
+    required String email,
+    required String pass,
+    required VoidCallback onSuccess,
+    required VoidCallback onFail,
+  }) async {
     isLoading = true;
     notifyListeners();
 
-    await Future.delayed(Duration(seconds: 3));
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: pass,
+      );
+
+      firebaseUser = userCredential.user;
+
+      // Carrega os dados do Firestore se o login for bem-sucedido
+      if (firebaseUser != null) {
+        DocumentSnapshot docUser = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(firebaseUser?.uid)
+            .get();
+
+        userData = docUser.data() as Map<String, dynamic>;
+
+        onSuccess();
+      } else {
+        onFail();
+      }
+    } catch (e) {
+      onFail();
+    }
 
     isLoading = false;
     notifyListeners();
   }
 
-  void recoverPass() {}
+  // SignOut - Logout
+  void signOut() async {
+    isLoading = true;
+    notifyListeners();
+
+    await _auth.signOut();
+
+    userData = {};
+    firebaseUser = null;
+
+    isLoading = false;
+    notifyListeners(); // Notifica a UI sobre a mudança de estado
+  }
+
+  // Recuperar senha
+  void recoverPass(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  // Verifica se o usuário está logado
+  bool isLoggedIn() {
+    return firebaseUser != null;
+  }
 }
