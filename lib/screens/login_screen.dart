@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:online_clothing_store/models/user_model.dart';
+import 'package:online_clothing_store/screens/home_screen.dart';
 import 'package:online_clothing_store/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController(); // Adicionando controladores
   final _passController = TextEditingController(); // Adicionando controladores
-
-  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +141,8 @@ class LoginScreen extends StatelessWidget {
         duration: const Duration(seconds: 2),
       ),
     );
+
+    Navigator.of(context).pop();
   }
 
   void _onFail(BuildContext context) {

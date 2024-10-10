@@ -69,12 +69,26 @@ class CustomDrawer extends StatelessWidget {
                             ),
                           ),
                           onTap: () {
-                            if (!model.isLoading ||
-                                model.firebaseUser == null) {
+                            if (model.firebaseUser == null) {
+                              // Se o usuário não estiver logado, navegue para a tela de login
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => LoginScreen()));
                             } else {
+                              // Se o usuário estiver logado, deslogue
                               model.signOut();
+
+                              // Após o logout, mostre uma mensagem e redirecione para a tela de login
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Você saiu da sua conta!"),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+
+                              // Redireciona para a tela de login após o logout
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
                             }
                           },
                         ),
