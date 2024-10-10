@@ -26,4 +26,12 @@ class ProductData {
         size = (snapshot.data() as Map<String, dynamic>)["size"] is List
             ? (snapshot.data() as Map<String, dynamic>)["size"]
             : []; // Se não for uma lista, atribui uma lista vazia
+
+  Map<String, dynamic> toResumedMap() {
+    return {
+      'title': title,
+      'descripition': descripition,
+      'price': price,
+    };
+  }
 }
