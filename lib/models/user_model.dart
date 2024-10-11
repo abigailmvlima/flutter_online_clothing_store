@@ -12,6 +12,8 @@ class UserModel extends Model {
 
   bool isLoading = false;
 
+  static UserModel of(BuildContext context) => ScopedModel.of(context);
+
   // SignUp - Criação de conta
   void signUp({
     required Map<String, dynamic> userData,

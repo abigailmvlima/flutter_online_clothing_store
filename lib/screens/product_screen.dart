@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:online_clothing_store/datas/cart_product.dart';
 import 'package:online_clothing_store/datas/product_data.dart';
+import 'package:online_clothing_store/models/cart_model.dart';
+import 'package:online_clothing_store/models/user_model.dart';
+import 'package:online_clothing_store/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductData product;
@@ -177,7 +181,25 @@ class _ProductScreenState extends State<ProductScreen> {
                   SizedBox(
                     height: 44.0,
                     child: ElevatedButton(
-                      onPressed: size != null ? () {} : null,
+                      onPressed: size != null
+                          ? () {
+                              if (UserModel.of(context).isLoggedIn()) {
+                                CartProduct cartProduct = CartProduct();
+                                cartProduct.size = size!;
+                                cartProduct.quantity = 1;
+                                cartProduct.pid = product.id;
+                                cartProduct.category = product.category!;
+
+                                CartModel.of(context).addCartItem(cartProduct);
+                              } else {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                );
+                              }
+                            }
+                          : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor, // Cor de fundo do botão
                         foregroundColor: Colors.white, // Cor do texto
@@ -186,10 +208,9 @@ class _ProductScreenState extends State<ProductScreen> {
                               8.0), // Define o raio das bordas
                         ),
                       ),
-                      child: const Text(
-                        "Adicionar ao carrinho",
-                        style: TextStyle(fontSize: 18.0),
-                      ),
+                      child: Text(UserModel.of(context).isLoggedIn()
+                          ? "Adicionar ao Carrinho"
+                          : "Entre para Comprar"),
                     ),
                   ),
                   const SizedBox(

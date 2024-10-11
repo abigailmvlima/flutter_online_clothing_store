@@ -12,6 +12,8 @@ class CartProduct {
 
   late ProductData productData;
 
+  CartProduct();
+
   CartProduct.fromDocument(DocumentSnapshot document) {
     cid = document.id;
 
@@ -29,7 +31,7 @@ class CartProduct {
       "pid": pid,
       "quantity": quantity,
       "size": size,
-      "product": productData.toResumedMap(),
+      // "product": productData.toResumedMap(),
     };
   }
 }
