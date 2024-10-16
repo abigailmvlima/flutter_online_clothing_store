@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:online_clothing_store/tabs/home_tab.dart';
 import 'package:online_clothing_store/tabs/products_tab.dart';
+import 'package:online_clothing_store/widgets/cart_button.dart';
 import 'package:online_clothing_store/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -114,14 +115,20 @@ class _HomeScreenState extends State<HomeScreen> {
         Scaffold(
           body: const HomeTab(),
           drawer: CustomDrawer(_pageController),
+          floatingActionButton: const CartButton(),
         ),
         Scaffold(
           appBar: AppBar(
-            title: const Text("Produtos"),
+            backgroundColor: const Color.fromARGB(255, 211, 118, 130),
+            title: const Text(
+              "Produtos",
+              style: TextStyle(color: Colors.white),
+            ),
             centerTitle: true,
           ),
           drawer: CustomDrawer(_pageController),
-          body: ProductsTab(),
+          body: const ProductsTab(),
+          floatingActionButton: const CartButton(),
         ),
         Container(
           color: Colors.red,
@@ -130,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildSignInButton() {
     return ElevatedButton(
       onPressed: () async {

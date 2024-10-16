@@ -3,6 +3,7 @@ import 'package:online_clothing_store/datas/cart_product.dart';
 import 'package:online_clothing_store/datas/product_data.dart';
 import 'package:online_clothing_store/models/cart_model.dart';
 import 'package:online_clothing_store/models/user_model.dart';
+import 'package:online_clothing_store/screens/cart.screen.dart';
 import 'package:online_clothing_store/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -191,6 +192,12 @@ class _ProductScreenState extends State<ProductScreen> {
                                 cartProduct.category = product.category!;
 
                                 CartModel.of(context).addCartItem(cartProduct);
+
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const CartScreen(),
+                                  ),
+                                );
                               } else {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
