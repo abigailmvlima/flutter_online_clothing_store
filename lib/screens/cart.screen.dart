@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_clothing_store/models/cart_model.dart';
 import 'package:online_clothing_store/models/user_model.dart';
 import 'package:online_clothing_store/screens/login_screen.dart';
+import 'package:online_clothing_store/tiles/cart_tile.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartScreen extends StatelessWidget {
@@ -102,11 +103,14 @@ class CartScreen extends StatelessWidget {
                   ),
                 );
               } else {
-                return const Center(
-                  child: Text(
-                    "Erro: Widget não encontrado!",
-                    style: TextStyle(fontSize: 18.0, color: Colors.red),
-                  ),
+                return ListView.builder(
+                  itemCount: model.products.length,
+                  itemBuilder: (context, index) {
+                    final product = model.products[index];
+                    return CartTile(
+                      cartProduct: product,
+                    );
+                  },
                 );
               }
             }),
