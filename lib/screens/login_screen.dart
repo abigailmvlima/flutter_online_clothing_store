@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:online_clothing_store/models/user_model.dart';
-import 'package:online_clothing_store/screens/home_screen.dart';
 import 'package:online_clothing_store/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

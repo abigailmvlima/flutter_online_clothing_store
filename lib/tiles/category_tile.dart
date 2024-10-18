@@ -5,7 +5,7 @@ import 'package:online_clothing_store/screens/category_screen.dart';
 class CategoryTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
-  CategoryTile(this.snapshot);
+  const CategoryTile(this.snapshot, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CategoryTile extends StatelessWidget {
         backgroundImage: NetworkImage(data["img"]),
       ),
       title: Text(data["title"]),
-      trailing: Icon(Icons.keyboard_arrow_right),
+      trailing: const Icon(Icons.keyboard_arrow_right),
       onTap: () {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => CategoryScreen(snapshot)));

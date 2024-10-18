@@ -6,7 +6,8 @@ class DrawerTile extends StatelessWidget {
   final PageController controller;
   final int page;
 
-  DrawerTile(this.icon, this.text, this.controller, this.page);
+  const DrawerTile(this.icon, this.text, this.controller, this.page,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class DrawerTile extends StatelessWidget {
           Navigator.of(context).pop();
           controller.jumpToPage(page);
         },
-        child: Container(
+        child: SizedBox(
           height: 60.0,
           child: Row(
             children: [

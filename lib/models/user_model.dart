@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class UserModel extends Model {
@@ -11,6 +12,9 @@ class UserModel extends Model {
   Map<String, dynamic> userData = {};
 
   bool isLoading = false;
+
+  // ignore: unused_field
+  final Logger _logger = Logger();
 
   static UserModel of(BuildContext context) => ScopedModel.of(context);
 
@@ -60,7 +64,7 @@ class UserModel extends Model {
           .doc(firebaseUser?.uid)
           .set(userData);
     } catch (e) {
-      print("Erro ao salvar os dados do usuário: $e");
+      _logger.e("Erro ao salvar os dados do usuário: $e");
     }
   }
 

@@ -9,9 +9,10 @@ import 'package:online_clothing_store/screens/login_screen.dart';
 class ProductScreen extends StatefulWidget {
   final ProductData product;
 
-  ProductScreen(this.product);
+  const ProductScreen(this.product, {super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductScreenState createState() => _ProductScreenState();
 }
 

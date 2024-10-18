@@ -6,7 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
   final PageController _pageController;
-  CustomDrawer(this._pageController);
+  const CustomDrawer(this._pageController, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class CustomDrawer extends StatelessWidget {
                             if (model.firebaseUser == null) {
                               // Se o usuário não estiver logado, navegue para a tela de login
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
+                                  builder: (context) => const LoginScreen()));
                             } else {
                               // Se o usuário estiver logado, deslogue
                               model.signOut();
@@ -88,11 +88,12 @@ class CustomDrawer extends StatelessWidget {
                               // Redireciona para a tela de login após o logout
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
+                                      builder: (context) =>
+                                          const LoginScreen()));
                             }
                           },
                         ),
-                        Divider(),
+                        const Divider(),
                         DrawerTile(Icons.home, "Início", _pageController, 0),
                         DrawerTile(Icons.list, "Produtos", _pageController, 1),
                         DrawerTile(

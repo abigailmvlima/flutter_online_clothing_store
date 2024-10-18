@@ -13,12 +13,6 @@ class CartScreen extends StatelessWidget {
     return ScopedModelDescendant<UserModel>(
       builder: (context, child, userModel) {
         // Verifica se o UserModel está disponível
-        if (userModel == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
         return ScopedModel<CartModel>(
           model: CartModel(userModel), // Passa o UserModel para o CartModel
           child: Scaffold(
@@ -76,7 +70,7 @@ class CartScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
+                              builder: (context) => const LoginScreen(),
                             ),
                           );
                         },
@@ -93,7 +87,7 @@ class CartScreen extends StatelessWidget {
                   ),
                 );
                 // ignore: unnecessary_null_comparison
-              } else if (model.products == null || model.products.length == 0) {
+              } else if (model.products == null || model.products.isEmpty) {
                 return const Center(
                   child: Text(
                     "Seu carrinho está vazio!",

@@ -127,7 +127,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Após 2 segundos, fecha a tela de cadastro
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pop();
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     });
   }
 

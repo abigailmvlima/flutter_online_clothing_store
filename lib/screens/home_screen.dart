@@ -6,11 +6,13 @@ import 'package:online_clothing_store/tabs/home_tab.dart';
 import 'package:online_clothing_store/tabs/products_tab.dart';
 import 'package:online_clothing_store/widgets/cart_button.dart';
 import 'package:online_clothing_store/widgets/custom_drawer.dart';
+import 'package:logger/logger.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -24,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
   User? _currentUser;
+  final Logger _logger = Logger(); // Instância do logger
 
   @override
   void initState() {
@@ -35,37 +38,37 @@ class _HomeScreenState extends State<HomeScreen> {
     // Certifique-se de que o Firebase foi inicializado
     await Firebase.initializeApp();
     _currentUser = _auth.currentUser;
-    print("Usuário logado atualmente: $_currentUser");
+    _logger.i("Usuário logado atualmente: $_currentUser");
     setState(() {});
   }
 
   Future<User?> _signInWithGoogle() async {
     try {
-      print("Tentando login com Google...");
+      _logger.i("Tentando login com Google...");
 
       // Faz login com o Google
 
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        print("Login cancelado pelo usuário");
+        _logger.i("Login cancelado pelo usuário");
         return null; // Usuário cancelou o login
       }
 
-      print(
+      _logger.i(
           "Login com Google bem-sucedido, usuário: ${googleUser.displayName}");
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
       if (googleAuth.accessToken == null || googleAuth.idToken == null) {
-        print("Erro: accessToken ou idToken está nulo.");
+        _logger.e("Erro: accessToken ou idToken está nulo.");
         return null;
       }
 
-      print("Access Token: ${googleAuth.accessToken}");
-      print("ID Token: ${googleAuth.idToken}");
+      _logger.i("Access Token: ${googleAuth.accessToken}");
+      _logger.i("ID Token: ${googleAuth.idToken}");
 
-      print(
+      _logger.i(
           "Autenticação do Google obtida. Access Token: ${googleAuth.accessToken}");
 
       // Usa o token do Google para autenticar no Firebase
@@ -79,11 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
           await _auth.signInWithCredential(credential);
       final User? user = userCredential.user;
 
-      print("Login com Firebase bem-sucedido, usuário: ${user?.displayName}");
+      _logger
+          .i("Login com Firebase bem-sucedido, usuário: ${user?.displayName}");
 
       return user;
     } catch (error) {
-      print("Erro no login com Google: $error");
+      _logger.e("Erro no login com Google: $error");
       return null;
     }
   }
@@ -95,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _currentUser = null;
     });
-    print("Usuário deslogado");
+    _logger.i("Usuário deslogado");
   }
 
   @override
@@ -141,27 +145,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildSignInButton() {
     return ElevatedButton(
       onPressed: () async {
-        print("Tentando login...");
+        _logger.i("Tentando login...");
         final user = await _signInWithGoogle();
         if (user != null) {
-          print("Login bem-sucedido: ${user.displayName}");
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Bem-vindo, ${user.displayName}!")),
-          );
+          _logger.i("Login bem-sucedido: ${user.displayName}");
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Bem-vindo, ${user.displayName}!")),
+            );
+          }
           setState(() {
             _currentUser = user;
           });
         } else {
-          print("Falha no login");
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Falha no login")),
-          );
+          _logger.w("Falha no login");
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Falha no login")),
+            );
+          }
         }
       },
       child: const Text("Login com Google"),
     );
   }
 
+  // ignore: unused_element
   Widget _buildUserDetails() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

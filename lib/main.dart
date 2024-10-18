@@ -3,8 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:online_clothing_store/models/cart_model.dart';
 import 'package:online_clothing_store/models/user_model.dart';
 import 'package:online_clothing_store/screens/home_screen.dart';
-import 'package:online_clothing_store/screens/login_screen.dart';
-import 'package:online_clothing_store/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 void main() async {
@@ -31,7 +29,7 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             debugShowCheckedModeBanner: false,
-            home: HomeScreen(),
+            home: const HomeScreen(),
           ),
         );
       }),
