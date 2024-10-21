@@ -8,6 +8,8 @@ import 'package:scoped_model/scoped_model.dart';
 class CartModel extends Model {
   UserModel user;
   List<CartProduct> products = [];
+  String couponCode = "";
+  int discountPercentage = 0;
   bool isLoading = false;
 
   CartModel(this.user) {
@@ -112,5 +114,11 @@ class CartModel extends Model {
     } catch (error) {
       _logger.e("Erro ao carregar itens do carrinho: $error");
     }
+  }
+
+  void setCoupon(String coupon, int percent) {
+    couponCode = coupon;
+    discountPercentage = percent;
+    notifyListeners(); // Notifica os listeners que o estado foi atualizado
   }
 }
